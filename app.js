@@ -1,50 +1,33 @@
-const nubmer1 = document.querySelector("#number1");
-const nubmer2 = document.querySelector("#number2");
-const addition = document.querySelector("#addition");
-const substraction = document.querySelector("#substraction");
-const division = document.querySelector("#division");
-const multiplication = document.querySelector("#multiplication");
+const inputs = document.querySelectorAll("input");
+const buttons = document.querySelectorAll("button");
+let num1, num2;
 
-function checkResult(result) {
-    if (isNaN(result)) {
-        alert("Invalid input!");
-    } else {
-        alert(`${number1.value} + ${number2.value} = ${result}`);
+function getNumbers(inputs) {
+    num1 = parseInt(inputs[0].value);
+    num2 = parseInt(inputs[1].value);
+}
+
+function parseOperation(operation) {
+    if (operation === "+") {
+        return num1 + num2;
+    } else if (operation === "-") {
+        return num1 - num2;
+    }
+    if (operation === "*") {
+        return num1 * num2;
+    } else if (operation === "/") {
+        return num1 / num2;
     }
 }
 
-number1.addEventListener("input", function (e) {
-    if (isNaN(number1.value)) {
-        number1.classList.add("red-border");
-    } else {
-        number1.classList.remove("red-border");
-    }
-})
+function setWarning(element) {
+    isNaN(element.target.value) ? element.target.classList.add("red-border") : element.target.classList.remove("red-border");
+}
 
-number2.addEventListener("input", function (e) {
-    if (isNaN(number2.value)) {
-        number2.classList.add("red-border");
-    } else {
-        number2.classList.remove("red-border");
-    }
-})
+buttons.forEach(button => button.addEventListener("click", (e) => {
+    getNumbers(inputs);
+    const result = parseOperation(e.target.innerText);
+    isNaN(result) ? alert("Invalid input!") : alert(`${num1} ${e.target.innerText} ${num2} = ${result} `);
+}))
 
-addition.addEventListener("click", function () {
-    const result = parseInt(number1.value) + parseInt(number2.value);
-    checkResult(result);
-});
-
-substraction.addEventListener("click", function () {
-    const result = parseInt(number1.value) - parseInt(number2.value);
-    checkResult(result);
-});
-
-division.addEventListener("click", function () {
-    const result = parseInt(number1.value) / parseInt(number2.value);
-    checkResult(result);
-});
-
-multiplication.addEventListener("click", function () {
-    const result = parseInt(number1.value) * parseInt(number2.value);
-    checkResult(result);
-});
+inputs.forEach(value => value.addEventListener("input", setWarning));
